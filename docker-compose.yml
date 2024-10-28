@@ -1,0 +1,21 @@
+services:
+  frontend:
+    image: node:20
+    container_name: frontend
+    working_dir: /src
+    command: npm start
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./frontend:/src"
+
+
+  backend:
+    image: node:20
+    container_name: backend
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./backend:/app"
