@@ -1,11 +1,9 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../models/userModel.js';
 
 
 
 const app =express();
-const prisma = new PrismaClient();
-
 app.use(express.json());
 
 
