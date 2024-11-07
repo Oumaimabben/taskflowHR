@@ -1,7 +1,8 @@
 import express from 'express';
-import prisma from '../models/userModel.js';
+import authRoutes from './routes/authRoutes.js';
+import dotenv from 'dotenv';
 
-
+dotenv.config();
 
 const app =express();
 app.use(express.json());
@@ -24,15 +25,7 @@ app.get('/test', (req, res) => {
     }
   });
 
-  //get all users
-app.get('/users', async (req, res) => {
-    try {
-      const users = await prisma.user.findMany();
-      res.status(200).json(users);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  });
+app.use('/auth', authRoutes);
 
   
 app.listen(5002,()=>{
