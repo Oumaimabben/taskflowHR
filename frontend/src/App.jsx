@@ -21,10 +21,12 @@ function App() {
           <Route path="holiday" element={<HolidayRequest />} />
           <Route path="time" element={<Time/>} />
           <Route path="RHEvaluationHoliday" element={<RHEvaluationHoliday/>} />
-          <Route path="time" element={<RHtimetable/>} />
+          <Route path="timetable" element={<RHtimetable/>} />
           <Route path="RHholidaylist" element={<RHholidaylist/>} />
           <Route path="/user/:name" element={<RHEvaluationHoliday/>} />
           <Route path="profile" element={<Profile/>} />
+
+          
         </Route>
         {/* Separate Route for Login */}
       </Routes>
