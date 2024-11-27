@@ -6,7 +6,7 @@
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]  // Add "debian-openssl-3.0.x" here
+  binaryTargets = ["native", "debian-openssl-3.0.x"] // Adjust as needed
 }
 
 datasource db {
@@ -14,10 +14,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//User with id as int autoincrement, name as string and email as string
+// Model for Users
 model User {
-  id       Int     @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
-  email    String  @unique
+  email    String    @unique
   password String
+  holidays Holiday[] // Relation to the Holiday model
+  timeEntries TimeEntry[]
+
+}
+
+// Model for Holidays
+model Holiday {
+  id          Int      @id @default(autoincrement())
+  description String?  // Optional description
+  startDate   DateTime // Start date of the holiday
+  endDate     DateTime // End date of the holiday
+  status      String   @default("pending")
+  userId      Int      // Foreign key to User
+  user        User     @relation(fields: [userId], references: [id]) // Relation to the User model
+}
+// Model for Time
+model TimeEntry {
+  id            Int      @id @default(autoincrement())
+  entryTime     DateTime
+  lunchBreakStart DateTime
+  lunchBreakEnd DateTime
+  exitTime      DateTime
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
 }
