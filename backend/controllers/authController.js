@@ -30,18 +30,29 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Vérifier si l'utilisateur existe
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    // Vérifier si le mot de passe est valide
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    // Générer le token
     const token = generateToken(user.id);
-    res.status(200).json({ message: 'Login successful', token });
+
+    // Retourner l'id de l'utilisateur connecté
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      userId: user.id, // Ajouter l'ID de l'utilisateur à la réponse
+      name: user.name, // Vous pouvez aussi inclure d'autres informations utiles
+      email: user.email,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
